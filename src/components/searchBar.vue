@@ -1,5 +1,5 @@
 <template>
-  <form class="flex items-center px-4 py-3">
+  <form class="flex items-center py-3">
     <label class="sr-only">Search</label>
     <div class="relative w-full">
       <input

@@ -1,8 +1,13 @@
 <template>
-  <div v-if="problems.length > 0" class="p-8 bg-gray-200">
-
+  <div v-if="pagesCount !== null" class="min-h-screen p-8 bg-gray-100">
     <!-- Data table -->
-    <DataTable :problems="problems" />
+    <DataTable
+      :problems="problems"
+      @search-key="handleFilter"
+      @has-checker="handleChecker"
+      @has-solution="handleSolution"
+      @ordering="handleIdOrdering"
+    />
 
     <!-- Pagination -->
 
@@ -12,7 +17,6 @@
       <button
         :disabled="page === 1"
         class="px-4 py-2 transition-all border rounded-sm disabled:text-gray-400 disabled:bg-gray-300 hover:shadow border-slate-400"
-     
         @click="handlePagination('prev')"
       >
         prev
@@ -52,7 +56,6 @@
         next
       </button>
     </div>
-
   </div>
 
   <!-- loading -->
@@ -68,7 +71,11 @@ import { ref, onMounted } from "vue";
 
 const problems = ref([]);
 const page = ref(1);
+const searchKey = ref("");
 const pagesCount = ref(null);
+const hasChecker = ref("");
+const hasSolution = ref("");
+const ordering = ref("")
 
 onMounted(async () => {
   getProblems();
@@ -77,7 +84,7 @@ onMounted(async () => {
 const getProblems = async () => {
   try {
     const response = await fetch(
-      `https://kep.uz/api/problems/?page=${page.value}`
+      `https://kep.uz/api/problems/?page=${page.value}&title=${searchKey.value}&has_checker=${hasChecker.value}&has_solution=${hasSolution.value}&ordering=${ordering.value}`
     );
     const data = await response.json();
     problems.value = data.data;
@@ -90,22 +97,42 @@ const getProblems = async () => {
 
 const handlePagination = (whichPage) => {
   switch (whichPage) {
-    case 'prev':
-      page.value --
+    case "prev":
+      page.value--;
       break;
-    case 'next':
-      page.value ++
+    case "next":
+      page.value++;
       break;
-    case 'first':
-      page.value = 1
+    case "first":
+      page.value = 1;
       break;
-    case 'last':
-      page.value = pagesCount.value
+    case "last":
+      page.value = pagesCount.value;
       break;
     default:
       break;
   }
 
+  getProblems();
+};
+
+const handleFilter = (searchTerm) => {
+  searchKey.value = searchTerm;
+  getProblems();
+};
+
+const handleChecker = (checker) => {
+  hasChecker.value = checker;
+  getProblems();
+};
+
+const handleSolution = (solution) => {
+  hasSolution.value = solution;
+  getProblems();
+}
+
+const handleIdOrdering = (order) => {
+  ordering.value = order
   getProblems()
 }
 </script>
