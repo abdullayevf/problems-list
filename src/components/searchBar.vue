@@ -14,10 +14,18 @@
 
 <script setup>
 import { ref } from "vue";
+const search = debounce((e) => emit("search", e.target.value), 500);
+
+function debounce(cb, delay) {
+  let timeout;
+
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      cb(...args);
+    }, delay);
+  };
+}
 
 const emit = defineEmits(["search"]);
-
-const search = (e) => {
-  emit("search", e.target.value);
-};
 </script>
