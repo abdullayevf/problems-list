@@ -1,8 +1,29 @@
-# Vue 3 + Vite
+# Problems List
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A Vue 3 app that displays programming problems from the KEP.uz API. Built for a UZINFOCOM internship test task.
 
-## Recommended IDE Setup
+## Features
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-# problems-list
+- Display problems with ID, title, tags, difficulty, likes/dislikes, and attempts
+- Search by problem title
+- Filter by solution availability and checker availability  
+- Sort by ID or title
+- Pagination with first/prev/next/last navigation
+
+## Tech Stack
+
+- Vue 3 with Composition API
+- Vite
+- Tailwind CSS
+- Pinia (state management)
+
+## Setup
+
+```bash
+npm install
+npm run dev
+```
+
+## API
+
+Fetches data from `https://kep.uz/api/problems/` with query parameters for pagination, search, and filtering.
